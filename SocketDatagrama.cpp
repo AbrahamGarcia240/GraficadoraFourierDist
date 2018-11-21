@@ -53,8 +53,8 @@ int SocketDatagrama::envia(PaqueteDatagrama &p){
 	bzero((char *)&direccionForanea, sizeof(direccionForanea));
 	direccionForanea.sin_family = AF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr((char*)p.obtieneDireccion());
-		cout<<"Envio a la direccion "<<p.obtieneDireccion()<<endl;
-		cout<<"Con el puerto "<<p.obtienePuerto()<<endl;
+		//cout<<"Envio a la direccion "<<p.obtieneDireccion()<<endl;
+		//cout<<"Con el puerto "<<p.obtienePuerto()<<endl;
 	//cuando se utiliza por numero del puerto el 0, el sistema se encarga de asignarle uno
 	direccionForanea.sin_port =htons(p.obtienePuerto());
 	unsigned int clilen = sizeof(direccionForanea);
@@ -72,7 +72,7 @@ int SocketDatagrama::recibe(PaqueteDatagrama &p){
 
 
 	//ahora relleno info
-	cout<<"Puerto del cliente "<<ntohs(direccionForanea.sin_port)<<endl;
+	//cout<<"Puerto del cliente "<<ntohs(direccionForanea.sin_port)<<endl;
 	p.inicializaPuerto(ntohs(direccionForanea.sin_port));
 	unsigned char arreglo2[4];
 	char arreglo[16];
@@ -107,7 +107,7 @@ int SocketDatagrama::recibeTimeout(PaqueteDatagrama &p, time_t segundos, susecon
 	}
 	else{
 		//ahora relleno info
-		cout<<"Puerto del cliente "<<ntohs(direccionForanea.sin_port)<<endl;
+		//cout<<"Puerto del cliente "<<ntohs(direccionForanea.sin_port)<<endl;
 		p.inicializaPuerto(ntohs(direccionForanea.sin_port));
 		unsigned char arreglo2[4];
 		char arreglo[16];
@@ -133,8 +133,8 @@ int SocketDatagrama::enviaTimeout(PaqueteDatagrama &p, time_t segundos, susecond
 	bzero((char *)&direccionForanea, sizeof(direccionForanea));
 	direccionForanea.sin_family = AF_INET;
 	direccionForanea.sin_addr.s_addr = inet_addr((char*)p.obtieneDireccion());
-	cout<<"Envio a la direccion "<<p.obtieneDireccion()<<endl;
-	cout<<"Con el puerto "<<p.obtienePuerto()<<endl;
+	//cout<<"Envio a la direccion "<<p.obtieneDireccion()<<endl;
+	//cout<<"Con el puerto "<<p.obtienePuerto()<<endl;
 
 	direccionForanea.sin_port =htons(p.obtienePuerto());
 	unsigned int clilen = sizeof(direccionForanea);

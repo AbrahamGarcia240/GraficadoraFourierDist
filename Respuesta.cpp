@@ -24,8 +24,8 @@ void Respuesta::sendReply(char *respuesta, unsigned char *ipCliente, int puertoC
 	packet.inicializaIp(ipCliente);
 	packet.inicilizaLongitud(Longitud);
 	packet.inicializaDatos(respuesta);
-	cout<<"Longitud del paquete: "<<packet.obtieneLongitud()<<endl;
-	cout<<"Bytes enviados: ";
+	//cout<<"Longitud del paquete: "<<packet.obtieneLongitud()<<endl;
+	//cout<<"Bytes enviados: ";
 
 	int i=0;
 	do{	
@@ -44,7 +44,7 @@ void Respuesta::sendReply(char *respuesta, unsigned char *ipCliente, int puertoC
 struct mensaje * Respuesta::getRequest(void){
 	PaqueteDatagrama packet(sizeof(mensaje));
 	sockt->recibe(packet);
-	cout<<"Longitud del paquete: "<<packet.obtieneLongitud()<<endl;
+	//cout<<"Longitud del paquete: "<<packet.obtieneLongitud()<<endl;
 	
 	
 

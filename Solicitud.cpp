@@ -16,8 +16,8 @@ Solicitud::Solicitud(string ip){
 
 char* Solicitud::doOperation(unsigned char *IP, int puerto, int operationId, char* argumentos){
 	PaqueteDatagrama packet(argumentos,sizeof(mensaje),IP,puerto);	
-	cout<<"Longitud del paquete: "<<packet.obtieneLongitud()<<endl;
-	cout<<"Bytes enviados: "<<endl;
+	//cout<<"Longitud del paquete: "<<packet.obtieneLongitud()<<endl;
+	//cout<<"Bytes enviados: "<<endl;
 
 	int i=0;
 	do{	

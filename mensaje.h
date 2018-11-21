@@ -12,5 +12,6 @@ struct mensaje{
  unsigned char IP[16];
  int puerto;
  int operationId; //Identificador de la operación
- char arguments[TAM_MAX_DATA];
+ double X;
+ double Y;
 };

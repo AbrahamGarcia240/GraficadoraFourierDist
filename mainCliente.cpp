@@ -1,11 +1,33 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <map> 
 #include "Solicitud.h"
 #include "mensaje.h"
 using namespace std;
 
+map <int, double> coordenadas;
 
+void CreaCoordenadas(int n){
+	register int i;
+	for (i=1; i<=n; i++){
+		 coordenadas.insert(pair <int, double> (i, (double)(3*i+2))); 
+	}
+
+}
+
+mensaje FormarMensaje(int numeroSecuencia, int entrada, string ip, int puerto, int operationId, double X, double Y){
+	mensaje prueba;
+	prueba.messageType=numeroSecuencia;
+	prueba.requestId=entrada;
+	memcpy(prueba.IP,(char *)ip.c_str(),16);
+	prueba.puerto=puerto; //MI PUERTO
+	prueba.operationId=operationId ;
+	prueba.X=X;
+	prueba.Y=Y;
+
+	return prueba;
+}
 
 int main(int argc, char const *argv[])
 {	
@@ -16,56 +38,43 @@ int main(int argc, char const *argv[])
 	int entrada;
 	cout<<"Ingrese el monto a ingresar"<<endl;
 	cin>>entrada;
+	CreaCoordenadas(entrada);
 	std::string ip(argv[1]); //mi IP
 	std::string ip2(argv[2]); //IP DEL SERVIDOR
 	
 
 	mensaje prueba;
 	Solicitud cliente(ip);
-	int r;
-	int t;
+	double datos;
+	int numeroSecuenciaRecibido;
 	int n=1;
-	int q=1;
+	int numeroSecuencia=1;
 	char *resultado=(char*)malloc(sizeof(TAM_MAX_DATA));
+
+
 	while(entrada>0){
-		prueba.messageType=q;
-		prueba.requestId=entrada;
-		memcpy(prueba.IP,(char *)ip.c_str(),16);
-		prueba.puerto=7777; //MI PUERTO
-		prueba.operationId=2 ;
-		memcpy(prueba.arguments,(char*)(&n),sizeof(int));
-
 		
-
+		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,2,(double)numeroSecuencia,(double)coordenadas.find(numeroSecuencia)->second);
+		
 		mensaje *respuesta=(mensaje*)malloc(sizeof(mensaje));
 		respuesta=((mensaje*)(cliente.doOperation((unsigned char *)ip2.c_str(),7200,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
-		cout<<"--------------------------"<<prueba.messageType<<endl;
-		r=(*(int*)respuesta->arguments);
-		t=(respuesta->messageType);
-		if(t!=q){
-			cout<<"Me ha llegado la respuesta  de "<<t<<" pero yo quiero la respuesta de "<<q<<endl;
-			if(t==-1)
-				q--;
+		datos=respuesta->X;
+		numeroSecuenciaRecibido=(respuesta->messageType);
+		if(numeroSecuenciaRecibido!=numeroSecuencia){
+			cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
+			if(numeroSecuenciaRecibido==-1)
+				numeroSecuencia--;
 		}
 		else{
-			
-					
-			
-			
-				cout<<"Antes tenia usted $"<<q<<" ahora tiene $"<<r<<endl;
-				cout<<r<<endl;
-				q++;
+				cout<<"Antes tenia usted $"<<numeroSecuencia<<" ahora tiene $"<<datos<<endl;
+				cout<<datos<<endl;
+				numeroSecuencia++;
 				entrada--;
 			
 		}
 		
 		
 	}
-
-	
-
-	
-
 
 	
 	return 0;
