@@ -10,8 +10,8 @@
 using namespace std;
 
 
-Solicitud::Solicitud(string ip){
-	sockt=new SocketDatagrama(7777, ip);
+Solicitud::Solicitud(string ip, int puerto){
+	sockt=new SocketDatagrama(puerto, ip);
 }
 
 char* Solicitud::doOperation(unsigned char *IP, int puerto, int operationId, char* argumentos){

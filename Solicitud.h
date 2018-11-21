@@ -10,7 +10,7 @@ using namespace std;
 class Solicitud
 {
 public:
-	Solicitud(string ip);
+	Solicitud(string ip, int puerto);
 	char * doOperation( unsigned char *IP, int puerto, int operationId, char* argumentos);
 private:
 	SocketDatagrama *sockt;
