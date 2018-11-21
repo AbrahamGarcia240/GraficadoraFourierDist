@@ -1,7 +1,7 @@
 PROYECTO=mainCliente
 DESTDIR=/usr/local/bin
-CFLAGS=-Wall
-LDFLAGS=-lm
+CFLAGS=-std=c++11 
+LDFLAGS=-lpthread -Wall -lm
 CC=gcc
 #objects = muestreo.o procesamiento.o archivos.o
 objects = $(wildcard *.c)
@@ -11,16 +11,20 @@ all: $(PROYECTO)
 
 
 mainCliente.o: mainCliente.cpp
-	g++ mainCliente.cpp -c
+	g++ -c $(CFLAGS) mainCliente.cpp $(LDFLAGS)
 
 PaqueteDatagrama.o: PaqueteDatagrama.cpp
-	g++ PaqueteDatagrama.cpp -c
+	g++ -c $(CFLAGS) PaqueteDatagrama.cpp $(LDFLAGS)
 
-SocketDatagrama.o: SocketDatagrama.cpp
-	g++ SocketDatagrama.cpp -c
+SocketD -c $(CFLAGS)atagrama.o: SocketDatagrama.cpp
+	g++ -c $(CFLAGS) SocketDatagrama.cpp $(LDFLAGS)
 
 Solicitud.o: Solicitud.cpp
-	g++ Solicitud.cpp -c
+	g++ -c $(CFLAGS) Solicitud.cpp $(LDFLAGS)
+
+Semaforo.o: Semaforo.cpp
+	g++ -c $(CFLAGS)  Semaforo.cpp $(LDFLAGS)
+
 
 #muestreo.o: muestreo.c
 #	$(CC) -c muestreo.c  $(CFLAGS)
@@ -32,7 +36,7 @@ Solicitud.o: Solicitud.cpp
 #	$(CC) -c archivos.c $(CFLAGS)
 
 
-$(PROYECTO):  mainCliente.o PaqueteDatagrama.o SocketDatagrama.o Solicitud.o
+$(PROYECTO): mainCliente.o PaqueteDatagrama.o SocketDatagrama.o Solicitud.o Semaforo.o 
 	g++ $^ -o $@ $(LDFLAGS)
 	rm *.o
 
