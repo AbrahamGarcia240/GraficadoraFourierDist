@@ -33,7 +33,7 @@ public class Servidor {
         chart.setVisible( true );
     
        SocketUDPSeguro s= new SocketUDPSeguro(7200);
-       int n=20;
+       int n=200;
        Mensaje m;
        
        while(n!=0){

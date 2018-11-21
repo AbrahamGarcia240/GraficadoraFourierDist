@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <map> 
+#include <math.h>
 #include <thread>
 #include "Solicitud.h"
 #include "mensaje.h"
@@ -17,10 +18,30 @@ int n=1;
 int numeroSecuencia=1;  
      
 char *resultado=(char*)malloc(sizeof(TAM_MAX_DATA));
+
+
+double CalculaY(int n, int precision){
+	double Y=1.5;
+	register int i=0;
+	for ( i = 1; i < precision; i++)
+	{
+		if(i%2!=0){
+			
+			Y+=(6/(i*M_PI))*sin(i*n);
+			
+		}
+		else{
+			Y+=0;
+		}
+	}
+
+	return Y;
+}
+
 void CreaCoordenadas(int n){
 	register int i;
 	for (i=1; i<=n; i++){
-		 coordenadas.insert(pair <int, double> (i, (double)(3*i+2))); 
+		 coordenadas.insert(pair <int, double> (i, CalculaY(i,1000))); 
 	}
 
 }
