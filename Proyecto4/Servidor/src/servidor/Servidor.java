@@ -33,24 +33,29 @@ public class Servidor {
         chart.setVisible( true );
     
        SocketUDPSeguro s= new SocketUDPSeguro(7200);
-       int n=200;
+     
        Mensaje m;
        
-       while(n!=0){
+       while(true){
            m=s.recibirPaquete();
            System.out.println(m.toString());
            if(m.operationId==1)
                 chart.datasets.add(m.getX(), m.getY());
                 
-           else
-               chart.datasets.remove(m.getX());
+           else{
+               try {
+                  chart.datasets.remove(m.getX()); 
+               } catch (Exception e) {
+               }
+               
+           }
            try {
                java.util.concurrent.TimeUnit.MILLISECONDS.sleep(100);
            } catch (InterruptedException ex) {
                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
            }
 
-           n--;
+        
        }
         
         

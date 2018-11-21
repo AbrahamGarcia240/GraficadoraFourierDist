@@ -9,6 +9,7 @@
 #include "Semaforo.h"
 using namespace std;
 
+int precision[5]={5,10,100,500,1000};
 Semaforo sem1, sem2;
 map <int, double> coordenadas;
 mensaje prueba;
@@ -38,10 +39,10 @@ double CalculaY(int n, int precision){
 	return Y;
 }
 
-void CreaCoordenadas(int n){
+void CreaCoordenadas(int n, int precision){
 	register int i;
 	for (i=1; i<=n; i++){
-		 coordenadas.insert(pair <int, double> (i, CalculaY(i,1000))); 
+		 coordenadas.insert(pair <int, double> (i, CalculaY(i,precision))); 
 	}
 
 }
@@ -65,7 +66,7 @@ void funcion1(string ip, string ip2, int entrada, Solicitud cliente)
 	sem1.wait();
 	while(entrada>0){
 		
-		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,1,(double)aux,(double)coordenadas.find(numeroSecuencia)->second);
+		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,1,(double)aux,(double)coordenadas.find(aux)->second);
 		
 		mensaje *respuesta=(mensaje*)malloc(sizeof(mensaje));
 		respuesta=((mensaje*)(cliente.doOperation((unsigned char *)ip2.c_str(),7200,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
@@ -95,7 +96,7 @@ void funcion2(string ip, string ip2, int entrada, Solicitud cliente){
 	sem2.wait();
 	while(entrada>0){
 		
-		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,2,(double)aux,(double)coordenadas.find(numeroSecuencia)->second);
+		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,2,(double)aux,(double)coordenadas.find(aux)->second);
 		
 		mensaje *respuesta=(mensaje*)malloc(sizeof(mensaje));
 		respuesta=((mensaje*)(cliente.doOperation((unsigned char *)ip2.c_str(),7200,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
@@ -129,19 +130,22 @@ int main(int argc, char const *argv[])
 		cout<<"Modo de uso ./mainCliente <ip_cliente> <ip_servidor>"<<endl;
 		return 0;
 	}
-	int entrada;
-	cout<<"Ingrese el monto a ingresar"<<endl;
-	cin>>entrada;
-	CreaCoordenadas(entrada);
+	int entrada=0;
 	std::string ip(argv[1]); //mi IP
 	std::string ip2(argv[2]); //IP DEL SERVIDOR
 	Solicitud cliente(ip);
-	sem1.init(1);
-	sem2.init(0);
-	thread th1(funcion1,ip,ip2,entrada,cliente), th2(funcion2, ip, ip2, entrada,cliente);
-
-	th1.join();
-	th2.join();
+	int fase=40;
+	do{
+		sem1.init(1);
+		sem2.init(0);
+		CreaCoordenadas(fase,precision[entrada]);
+		thread th1(funcion1,ip,ip2,fase,cliente), th2(funcion2, ip, ip2, fase,cliente);
+		th1.join();
+		th2.join();
+		entrada+=1;
+		coordenadas.clear();
+	}while(entrada<5);
+	
 
 	
 	
