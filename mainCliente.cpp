@@ -22,13 +22,14 @@ mensaje prueba;
 mensaje prueba2;
 double datos;
 atomic<int> numeroSecuenciaRecibido(0);
-atomic<int> numeroSecuenciaRecibido2(0);
+atomic<int> numeroSecuenciaRecibido2(1);
 int n=1;
 atomic<int> numeroSecuencia(1);  
 atomic<int> numeroSecuencia2(1);
 int control=0;
 atomic<int> control2(0);    
 char *resultado=(char*)malloc(sizeof(TAM_MAX_DATA));
+mutex m;
 
 
 double CalculaY(double n, int precision){
@@ -107,8 +108,9 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 	double aux=1;
 	if(control2!=0){
 		numeroSecuencia--;
+		//sem1.wait();
 	}
-	sem1.wait();
+	
 	
 	while(aux<16){
 		switch(control2){
@@ -132,7 +134,9 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		
 		
 		mensaje *respuesta=(mensaje*)malloc(sizeof(mensaje));
+		
 		respuesta=((mensaje*)(cliente.doOperation((unsigned char *)ip2.c_str(),7200,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
+		
 		//usleep(300000);
 		datos=respuesta->X;
 		numeroSecuenciaRecibido=(respuesta->messageType);
@@ -153,7 +157,49 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		}
 		cout<<"ENtrada=="<<entrada<<endl;
 		cout<<"Control2=="<<control2<<endl;
+
+		switch(control2){
+			case 1:
+				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,2,(double)aux,(double)coordenadas.find(aux)->second);
+				break;
+			case 2:
+				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,4,(double)aux,(double)coordenadas2.find(aux)->second);
+				break;
+			case 3:
+				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,6,(double)aux,(double)coordenadas3.find(aux)->second);
+				break;
+			case 4:
+				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,8,(double)aux,(double)coordenadas4.find(aux)->second);
+				break;
+			case 5:
+				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,10,(double)aux,(double)coordenadas5.find(aux)->second);
+				break;
+
+		}
 		
+		
+		
+		
+		respuesta=((mensaje*)(cliente.doOperation((unsigned char *)ip2.c_str(),7201,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
+		
+		//usleep(300000);
+		datos=respuesta->X;
+		numeroSecuenciaRecibido=(respuesta->messageType);
+		if(numeroSecuenciaRecibido!=numeroSecuencia){
+			cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
+			cout<<"sigo en el hilo 1"<<endl;
+			if(numeroSecuenciaRecibido==-1)
+				numeroSecuencia--;
+
+		}
+		else{
+				cout<<"Recibio de manera correcta a "<<numeroSecuencia<<" en el hilo 1"<<endl;
+				
+				numeroSecuencia++;
+				aux+=0.2;
+				entrada-=0.2;
+			
+		}
 	}
 	//sem2.post();
 	//if(control2==0){
@@ -161,69 +207,11 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 	//}
 	control2++;
 	
-	sem2.post();
+	//sem2.post();
 	
 	
 }	
 
-void funcion2(string ip, string ip2, double entrada, Solicitud cliente2){
-	double aux2=1;
-	//if(control2==0){
-		sem2.wait();
-	//}
-	numeroSecuencia++;
-	while(aux2<16){
-		switch(control2){
-			case 1:
-				prueba=FormarMensaje2(numeroSecuencia2,entrada,ip,7778,2,(double)aux2,(double)coordenadas.find(aux2)->second);
-				break;
-			case 2:
-				prueba=FormarMensaje2(numeroSecuencia2,entrada,ip,7778,4,(double)aux2,(double)coordenadas2.find(aux2)->second);
-				break;
-			case 3:
-				prueba=FormarMensaje2(numeroSecuencia2,entrada,ip,7778,6,(double)aux2,(double)coordenadas3.find(aux2)->second);
-				break;
-			case 4:
-				prueba=FormarMensaje2(numeroSecuencia2,entrada,ip,7778,8,(double)aux2,(double)coordenadas4.find(aux2)->second);
-				break;
-			case 5:
-				prueba=FormarMensaje2(numeroSecuencia2,entrada,ip,7778,10,(double)aux2,(double)coordenadas5.find(aux2)->second);
-				break;
-		}
-		
-		
-		mensaje *respuesta=(mensaje*)malloc(sizeof(mensaje));
-		
-		respuesta=((mensaje*)(cliente2.doOperation((unsigned char *)ip2.c_str(),7201,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
-		//usleep(300000);
-		datos=respuesta->X;
-		numeroSecuenciaRecibido2=(respuesta->messageType);
-		if(numeroSecuenciaRecibido2!=numeroSecuencia2){
-			cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido2<<" pero yo quiero la respuesta de "<<numeroSecuencia2<<" HILO 2"<<endl;
-
-			if(numeroSecuenciaRecibido2==-1)
-				numeroSecuencia2--;
-		}
-		else{
-				cout<<"Recibio de manera correcta a "<<numeroSecuencia2<<" en el hilo 2"<<endl;
-			
-				numeroSecuencia2++;
-				aux2+=0.2;
-				//entrada-=0.2;
-				cout<<"Control2=="<<control2<<endl;
-			
-		}
-		//sem1.post();
-		
-		
-	}
-	
-	//if(control2==0){
-	//}
-
-	sem1.post();
-	
-}
 
 int main(int argc, char const *argv[])
 {	
@@ -244,9 +232,10 @@ int main(int argc, char const *argv[])
 		sem1.init(1);
 		sem2.init(0);
 		CreaCoordenadas(fase,precision[entrada],control);
-		thread th1(funcion1,ip,ip2,31,cliente), th2(funcion2, ip, ip2, 31,cliente2);
+		thread th1(funcion1,ip,ip2,200,cliente);
+		//thread th2(funcion2, ip, ip2, 200,cliente2);
 		th1.join();
-		th2.join();
+		//th2.join();
 		entrada+=1;
 		coordenadas.clear();
 		control++;

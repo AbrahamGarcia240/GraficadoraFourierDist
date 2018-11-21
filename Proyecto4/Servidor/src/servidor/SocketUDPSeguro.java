@@ -96,6 +96,7 @@ public class SocketUDPSeguro {
         }
         else if(numeroDeSecuencia-1==numeroRecibido){
             System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia+" ......");
+             //numeroDeSecuencia=numeroRecibido;
              this.Responder(m);
              return false;
          }
