@@ -244,7 +244,7 @@ int main(int argc, char const *argv[])
 		sem1.init(1);
 		sem2.init(0);
 		CreaCoordenadas(fase,precision[entrada],control);
-		thread th1(funcion1,ip,ip2,200,cliente), th2(funcion2, ip, ip2, 200,cliente2);
+		thread th1(funcion1,ip,ip2,31,cliente), th2(funcion2, ip, ip2, 31,cliente2);
 		th1.join();
 		th2.join();
 		entrada+=1;

@@ -25,13 +25,14 @@ char* Solicitud::doOperation(unsigned char *IP, int puerto, int operationId, cha
 			break;
 		}
 		else{
-			cout<<"Intentando enviar solicitud al servidor"<<endl;
+			//cout<<"Intentando enviar solicitud al servidor"<<endl;
 		}
 
 		i++;
 	}while(i<6);
-	if(i==6)
-		cout<<"El servidor no esta disponible, intente mas tarde"<<endl;
+	if(i==6){
+		//cout<<"El servidor no esta disponible, intente mas tarde"<<endl;
+	}
 
 
 	//cout<<"Bytes recibidos: "<<sockt->recibe(packet)<<endl;
@@ -42,13 +43,14 @@ char* Solicitud::doOperation(unsigned char *IP, int puerto, int operationId, cha
 		}
 		else{
 			sockt->enviaTimeout(packet,0,3000);
-			cout<<"Intentando enviar solicitud al servidor"<<endl;
+			//cout<<"Intentando enviar solicitud al servidor"<<endl;
 		}
 
 		i++;
 	}while(1);
-	if(i==6)
-		cout<<"El servidor no esta disponible, intente mas tarde"<<endl;
+	if(i==6){
+		//cout<<"El servidor no esta disponible, intente mas tarde"<<endl;
+	}
 	
 
 	return packet.obtieneDatos();
