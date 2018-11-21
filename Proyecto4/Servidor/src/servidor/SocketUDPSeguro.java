@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 public class SocketUDPSeguro {
     private byte[]buffer = new byte [65536];
     DatagramSocket sock;
-    static int numeroDeSecuencia=1;
+     int numeroDeSecuencia=1;
     
 
     public SocketUDPSeguro(int puerto) {

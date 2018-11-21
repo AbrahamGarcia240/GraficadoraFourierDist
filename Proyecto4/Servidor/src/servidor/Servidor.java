@@ -42,9 +42,49 @@ public class Servidor {
            if(m.operationId==1)
                 chart.datasets.add(m.getX(), m.getY());
                 
-           else{
+           else if(m.operationId==2){
                try {
                   chart.datasets.remove(m.getX()); 
+               } catch (Exception e) {
+               }
+               
+           }
+           else if(m.operationId==3)
+                chart.datasets2.add(m.getX(), m.getY());
+                
+           else if(m.operationId==4){
+               try {
+                  chart.datasets2.remove(m.getX()); 
+               } catch (Exception e) {
+               }
+               
+           }
+           else if(m.operationId==5)
+                chart.datasets3.add(m.getX(), m.getY());
+                
+           else if(m.operationId==6){
+               try {
+                  chart.datasets3.remove(m.getX()); 
+               } catch (Exception e) {
+               }
+               
+           }
+           if(m.operationId==7)
+                chart.datasets4.add(m.getX(), m.getY());
+                
+           else if(m.operationId==8){
+               try {
+                  chart.datasets4.remove(m.getX()); 
+               } catch (Exception e) {
+               }
+               
+           }
+           if(m.operationId==9)
+                chart.datasets5.add(m.getX(), m.getY());
+                
+           else if(m.operationId==10){
+               try {
+                  chart.datasets5.remove(m.getX()); 
                } catch (Exception e) {
                }
                
