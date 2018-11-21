@@ -33,12 +33,17 @@ public class Servidor {
         chart.setVisible( true );
     
        SocketUDPSeguro s= new SocketUDPSeguro(7200);
-       int n=100;
+       int n=20;
        Mensaje m;
+       
        while(n!=0){
            m=s.recibirPaquete();
            System.out.println(m.toString());
-           chart.dataset.addValue( m.getY() , "F(x)" ,String.valueOf(m.getX()) );
+           if(m.operationId==1)
+                chart.datasets.add(m.getX(), m.getY());
+                
+           else
+               chart.datasets.remove(m.getX());
            try {
                java.util.concurrent.TimeUnit.MILLISECONDS.sleep(100);
            } catch (InterruptedException ex) {
@@ -52,7 +57,6 @@ public class Servidor {
 
         
         
-        chart.dataset.clear();
     }
     
     

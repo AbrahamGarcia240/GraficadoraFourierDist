@@ -48,13 +48,14 @@ int main(int argc, char const *argv[])
 	double datos;
 	int numeroSecuenciaRecibido;
 	int n=1;
-	int numeroSecuencia=1;
+	int numeroSecuencia=1;  
+	int aux=1;      
 	char *resultado=(char*)malloc(sizeof(TAM_MAX_DATA));
-
+	int entradaAux=entrada;
 
 	while(entrada>0){
 		
-		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,2,(double)numeroSecuencia,(double)coordenadas.find(numeroSecuencia)->second);
+		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,1,(double)aux,(double)coordenadas.find(numeroSecuencia)->second);
 		
 		mensaje *respuesta=(mensaje*)malloc(sizeof(mensaje));
 		respuesta=((mensaje*)(cliente.doOperation((unsigned char *)ip2.c_str(),7200,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
@@ -69,7 +70,33 @@ int main(int argc, char const *argv[])
 				cout<<"Antes tenia usted $"<<numeroSecuencia<<" ahora tiene $"<<datos<<endl;
 				cout<<datos<<endl;
 				numeroSecuencia++;
+				aux++;
 				entrada--;
+			
+		}
+		
+		
+	}
+	aux=1;
+	while(entradaAux>0){
+		
+		prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,2,(double)aux,(double)coordenadas.find(numeroSecuencia)->second);
+		
+		mensaje *respuesta=(mensaje*)malloc(sizeof(mensaje));
+		respuesta=((mensaje*)(cliente.doOperation((unsigned char *)ip2.c_str(),7200,prueba.operationId,(char *)&prueba))); //PUERTO DEL SERVIDOR
+		datos=respuesta->X;
+		numeroSecuenciaRecibido=(respuesta->messageType);
+		if(numeroSecuenciaRecibido!=numeroSecuencia){
+			cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
+			if(numeroSecuenciaRecibido==-1)
+				numeroSecuencia--;
+		}
+		else{
+				cout<<"Antes tenia usted $"<<numeroSecuencia<<" ahora tiene $"<<datos<<endl;
+				cout<<datos<<endl;
+				numeroSecuencia++;
+				aux++;
+				entradaAux--;
 			
 		}
 		
