@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int precision[5]={2,3,5,100,10000};
+int precision[5]={2,3,4,5,6};
 map <double, double> coordenadas;
 map <double, double> coordenadas2;
 map <double, double> coordenadas3;
@@ -89,18 +89,7 @@ mensaje FormarMensaje(int numeroSecuencia, int entrada, string ip, int puerto, i
 
 	return prueba;
 }
-mensaje FormarMensaje2(int numeroSecuencia, int entrada, string ip, int puerto, int operationId, double X, double Y){
-	mensaje prueba;
-	prueba.messageType=numeroSecuencia;
-	prueba.requestId=entrada;
-	memcpy(prueba.IP,(char *)ip.c_str(),16);
-	prueba.puerto=puerto; //MI PUERTO
-	prueba.operationId=operationId ;
-	prueba.X=X;
-	prueba.Y=Y;
 
-	return prueba;
-}
 
 
 void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
@@ -117,6 +106,7 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 			case 0:
 				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,1,(double)aux,(double)coordenadas.find(aux)->second);
 				break;
+			
 			case 1:
 				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,3,(double)aux,(double)coordenadas2.find(aux)->second);
 				break;
@@ -141,22 +131,22 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		datos=respuesta->X;
 		numeroSecuenciaRecibido=(respuesta->messageType);
 		if(numeroSecuenciaRecibido!=numeroSecuencia){
-			cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
-			cout<<"sigo en el hilo 1"<<endl;
+			//cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
+			//cout<<"sigo en el hilo 1"<<endl;
 			if(numeroSecuenciaRecibido==-1)
 				numeroSecuencia--;
 
 		}
 		else{
-				cout<<"Recibio de manera correcta a "<<numeroSecuencia<<" en el hilo 1"<<endl;
+				//cout<<"Recibio de manera correcta a "<<numeroSecuencia<<" en el hilo 1"<<endl;
 				
 				numeroSecuencia++;
 				aux+=0.2;
 				entrada-=0.2;
 			
 		}
-		cout<<"ENtrada=="<<entrada<<endl;
-		cout<<"Control2=="<<control2<<endl;
+		//cout<<"ENtrada=="<<entrada<<endl;
+		//cout<<"Control2=="<<control2<<endl;
 
 		switch(control2){
 			case 1:
@@ -186,14 +176,14 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		datos=respuesta->X;
 		numeroSecuenciaRecibido=(respuesta->messageType);
 		if(numeroSecuenciaRecibido!=numeroSecuencia){
-			cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
-			cout<<"sigo en el hilo 1"<<endl;
+			//cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
+			//cout<<"sigo en el hilo 1"<<endl;
 			if(numeroSecuenciaRecibido==-1)
 				numeroSecuencia--;
 
 		}
 		else{
-				cout<<"Recibio de manera correcta a "<<numeroSecuencia<<" en el hilo 1"<<endl;
+			//	cout<<"Recibio de manera correcta a "<<numeroSecuencia<<" en el hilo 1"<<endl;
 				
 				numeroSecuencia++;
 				aux+=0.2;
@@ -206,6 +196,9 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		
 	//}
 	control2++;
+	if(control2==6){
+		control2=2;
+	}
 	
 	//sem2.post();
 	
@@ -227,20 +220,44 @@ int main(int argc, char const *argv[])
 	std::string ip2(argv[2]); //IP DEL SERVIDOR
 	Solicitud cliente(ip,7777);
 	Solicitud cliente2(ip,7778);
-	int fase=40;
-	do{
-		sem1.init(1);
-		sem2.init(0);
-		CreaCoordenadas(fase,precision[entrada],control);
-		thread th1(funcion1,ip,ip2,200,cliente);
-		//thread th2(funcion2, ip, ip2, 200,cliente2);
-		th1.join();
-		//th2.join();
-		entrada+=1;
-		coordenadas.clear();
-		control++;
-	}while(entrada<5);
+	control2=0;
 	
+	do{
+		control=0;
+		int fase=40;
+		entrada=0;
+		CreaCoordenadas(fase,precision[0],0);
+		CreaCoordenadas(fase,precision[1],1);
+		CreaCoordenadas(fase,precision[2],2);
+		CreaCoordenadas(fase,precision[3],3);
+		CreaCoordenadas(fase,precision[4],4);
+			
+		do{
+			sem1.init(1);
+			sem2.init(0);
+			
+			thread th1(funcion1,ip,ip2,200,cliente);
+			//thread th2(funcion2, ip, ip2, 200,cliente2);
+			th1.join();
+			//th2.join();
+			entrada+=1;
+			coordenadas.clear();
+			control++;
+		}while(entrada<6);
+		sleep(5);
+		control2=1;
+		precision[0]+=5;
+		precision[1]+=5;
+		precision[2]+=5;
+		precision[3]+=5;
+		precision[4]+=5;
+		coordenadas.clear();
+		coordenadas2.clear();
+		coordenadas3.clear();
+		coordenadas4.clear();
+		coordenadas5.clear();
+		
+	}while(1);
 
 	
 	
