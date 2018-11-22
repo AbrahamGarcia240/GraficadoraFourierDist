@@ -134,6 +134,7 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 			//cout<<"sigo en el hilo 1"<<endl;
 			if(numeroSecuenciaRecibido==-1)
 				numeroSecuencia--;
+
 			
 
 		}
@@ -244,8 +245,10 @@ int main(int argc, char const *argv[])
 
 		control2=1;
 		for(i=0;i<6;i++){
-			precision[i]+=10;
-			
+			if(i!=5)
+				precision[i]+=10;
+			else
+				precision[1]+=30;
 		}
 		
 		coordenadas.clear();
