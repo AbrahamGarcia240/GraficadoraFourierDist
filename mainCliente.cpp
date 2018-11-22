@@ -102,6 +102,9 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 			case 0:
 				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,1,(double)aux,(double)coordenadas.find(aux)->second);
 				break;
+			case 5:
+				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,1,(double)aux,(double)coordenadas5.find(aux)->second);
+				break;
 			
 			case 1:
 				prueba=FormarMensaje(numeroSecuencia,entrada,ip,7777,3,(double)aux,(double)coordenadas2.find(aux)->second);
@@ -192,9 +195,7 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		
 	//}
 	control2++;
-	if(control2==6){
-		control2=2;
-	}
+	
 	
 	//sem2.post();
 	
