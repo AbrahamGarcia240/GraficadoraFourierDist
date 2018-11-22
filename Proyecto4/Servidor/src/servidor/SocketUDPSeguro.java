@@ -101,8 +101,8 @@ public class SocketUDPSeguro {
              return false;
          }
         else{
-             //System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia);
-             m.setMessageType(numeroDeSecuencia);
+            //System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia);
+            m.setMessageType(numeroDeSecuencia);
             this.Responder(m);
             //System.out.println("mmm");
             return false;

@@ -134,6 +134,7 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 			//cout<<"sigo en el hilo 1"<<endl;
 			if(numeroSecuenciaRecibido==-1)
 				numeroSecuencia--;
+			
 
 		}
 		else{
@@ -175,7 +176,7 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		datos=respuesta->X;
 		numeroSecuenciaRecibido=(respuesta->messageType);
 		if(numeroSecuenciaRecibido!=numeroSecuencia){
-			//cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
+			cout<<"Me ha llegado la respuesta  de "<<numeroSecuenciaRecibido<<" pero yo quiero la respuesta de "<<numeroSecuencia<<endl;
 			//cout<<"sigo en el hilo 1"<<endl;
 			if(numeroSecuenciaRecibido==-1)
 				numeroSecuencia--;
@@ -191,9 +192,9 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 		}
 	}
 	//sem2.post();
-	//if(control2==0){
-		
-	//}
+	if(control2==6){
+		control2=1;
+	}
 	control2++;
 	
 	
