@@ -29,6 +29,7 @@ public class HIlo extends Thread{
         Mensaje m;
          while(true){
            
+             
            m=s.recibirPaquete();
            //m2=s2.recibirPaquete();
            System.out.println(m.toString());
@@ -38,6 +39,8 @@ public class HIlo extends Thread{
            else if(m.operationId==2){
                try {
                   chart.datasets.remove(m.getX()); 
+                   chart.datasets.remove(0);
+            
                } catch (Exception e) {
                }
                
@@ -48,6 +51,7 @@ public class HIlo extends Thread{
            else if(m.operationId==4){
                try {
                   chart.datasets2.remove(m.getX()); 
+                  chart.datasets2.remove(0);
                } catch (Exception e) {
                }
                
@@ -58,6 +62,7 @@ public class HIlo extends Thread{
            else if(m.operationId==6){
                try {
                   chart.datasets3.remove(m.getX()); 
+                  chart.datasets3.remove(0);
                } catch (Exception e) {
                }
                
@@ -67,7 +72,8 @@ public class HIlo extends Thread{
                 
            else if(m.operationId==8){
                try {
-                  chart.datasets4.remove(m.getX()); 
+                  chart.datasets4.remove(m.getX());
+                  chart.datasets4.remove(0);
                } catch (Exception e) {
                }
                
@@ -78,6 +84,7 @@ public class HIlo extends Thread{
            else if(m.operationId==10){
                try {
                   chart.datasets5.remove(m.getX()); 
+                  chart.datasets5.remove(0);
                } catch (Exception e) {
                }
                

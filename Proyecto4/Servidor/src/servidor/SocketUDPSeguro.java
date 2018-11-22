@@ -69,7 +69,7 @@ public class SocketUDPSeguro {
                 X= buf.getDouble();
                 Y= buf.getDouble();
                 m=new Mensaje(messageType, requestID, new String(bytes), puerto, operationID, X, Y);
-                System.out.println(m.toString()+"+++++++++++++++++++++++++++++++++++++++++");
+                //System.out.println(m.toString()+"+++++++++++++++++++++++++++++++++++++++++");
             
             }while(!this.ValidarYResponder(m));
             
@@ -95,16 +95,16 @@ public class SocketUDPSeguro {
             return true;
         }
         else if(numeroDeSecuencia-1==numeroRecibido){
-            System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia+" ......");
+            //System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia+" ......");
              //numeroDeSecuencia=numeroRecibido;
              this.Responder(m);
              return false;
          }
         else{
-             System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia);
+             //System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia);
              m.setMessageType(numeroDeSecuencia);
             this.Responder(m);
-            System.out.println("mmm");
+            //System.out.println("mmm");
             return false;
         }
     }

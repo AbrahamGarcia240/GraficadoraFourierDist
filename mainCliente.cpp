@@ -17,15 +17,11 @@ map <double, double> coordenadas2;
 map <double, double> coordenadas3;
 map <double, double> coordenadas4;
 map <double, double> coordenadas5;
-Semaforo sem1, sem2;
 mensaje prueba;
-mensaje prueba2;
 double datos;
 atomic<int> numeroSecuenciaRecibido(0);
-atomic<int> numeroSecuenciaRecibido2(1);
 int n=1;
 atomic<int> numeroSecuencia(1);  
-atomic<int> numeroSecuencia2(1);
 int control=0;
 atomic<int> control2(0);    
 char *resultado=(char*)malloc(sizeof(TAM_MAX_DATA));
@@ -226,15 +222,14 @@ int main(int argc, char const *argv[])
 		control=0;
 		int fase=40;
 		entrada=0;
-		CreaCoordenadas(fase,precision[0],0);
-		CreaCoordenadas(fase,precision[1],1);
-		CreaCoordenadas(fase,precision[2],2);
-		CreaCoordenadas(fase,precision[3],3);
-		CreaCoordenadas(fase,precision[4],4);
-			
+		register int i;
+		for(i=0;i<6;i++){
+			CreaCoordenadas(fase,precision[i],i);
+		}
+		
+	
 		do{
-			sem1.init(1);
-			sem2.init(0);
+			
 			
 			thread th1(funcion1,ip,ip2,200,cliente);
 			//thread th2(funcion2, ip, ip2, 200,cliente2);
@@ -244,13 +239,13 @@ int main(int argc, char const *argv[])
 			coordenadas.clear();
 			control++;
 		}while(entrada<6);
-		sleep(5);
+
 		control2=1;
-		precision[0]+=5;
-		precision[1]+=5;
-		precision[2]+=5;
-		precision[3]+=5;
-		precision[4]+=5;
+		for(i=0;i<6;i++){
+			precision[i]+=5;
+			
+		}
+		
 		coordenadas.clear();
 		coordenadas2.clear();
 		coordenadas3.clear();
