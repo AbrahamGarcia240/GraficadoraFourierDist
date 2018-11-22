@@ -193,7 +193,7 @@ void funcion1(string ip, string ip2, double entrada, Solicitud cliente)
 	}
 	//sem2.post();
 	if(control2==6){
-		control2=1;
+		control2=0;
 	}
 	control2++;
 	
@@ -244,7 +244,7 @@ int main(int argc, char const *argv[])
 
 		control2=1;
 		for(i=0;i<6;i++){
-			precision[i]+=5;
+			precision[i]+=10;
 			
 		}
 		
