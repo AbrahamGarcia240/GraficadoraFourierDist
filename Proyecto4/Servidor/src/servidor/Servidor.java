@@ -27,36 +27,18 @@ public class Servidor {
      */
     public static void main(String[] args) {
         
-       LineChart_AWT chart = new LineChart_AWT("F(x)" ,"Serie de fourier");
+      LineChart_AWT chart = new LineChart_AWT("F(x)" ,"Serie de fourier");
        chart.pack( );
         RefineryUtilities.centerFrameOnScreen( chart );
         chart.setVisible( true );
-    
        SocketUDPSeguro s= new SocketUDPSeguro(7200);
-     
-       Mensaje m;
+       SocketUDPSeguro s2= new SocketUDPSeguro(7201);
+       Thread t1= new HIlo( chart,s);
+       Thread t2 = new HIlo(chart,s2);
        
-       while(true){
-           m=s.recibirPaquete();
-           System.out.println(m.toString());
-           if(m.operationId==1)
-                chart.datasets.add(m.getX(), m.getY());
-                
-           else{
-               try {
-                  chart.datasets.remove(m.getX()); 
-               } catch (Exception e) {
-               }
-               
-           }
-           try {
-               java.util.concurrent.TimeUnit.MILLISECONDS.sleep(100);
-           } catch (InterruptedException ex) {
-               Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-           }
-
-        
-       }
+       t1.start();
+       t2.start();
+       
         
         
 

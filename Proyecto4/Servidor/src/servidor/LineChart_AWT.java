@@ -25,13 +25,21 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
  */
 public class LineChart_AWT extends ApplicationFrame {
     final XYSeriesCollection dataset = new XYSeriesCollection( );
-    public XYSeries datasets = new XYSeries( "Fourier" ); 
+    public XYSeries datasets = new XYSeries( "Fourier 2" ); 
+    public XYSeries datasets2 = new XYSeries( "Fourier 3" ); 
+    public XYSeries datasets3 = new XYSeries( "Fourier 5" ); 
+    public XYSeries datasets4 = new XYSeries( "Fourier 10" );
+    public XYSeries datasets5 = new XYSeries( "Fourier 100" ); 
   
     
     public LineChart_AWT( String applicationTitle , String chartTitle ) {
      
       super(applicationTitle);
       dataset.addSeries(datasets);
+      dataset.addSeries(datasets2);
+      dataset.addSeries(datasets3);
+      dataset.addSeries(datasets4);
+      dataset.addSeries(datasets5);
       JFreeChart xylineChart = ChartFactory.createXYLineChart(chartTitle ,
          "Category" ,
          "Score" ,

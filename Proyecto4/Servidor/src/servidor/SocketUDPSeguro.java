@@ -23,15 +23,20 @@ import java.util.logging.Logger;
 public class SocketUDPSeguro {
     private byte[]buffer = new byte [65536];
     DatagramSocket sock;
-    static int numeroDeSecuencia=1;
+    int numeroDeSecuencia=1;
     
-
+     int puerto;
     public SocketUDPSeguro(int puerto) {
         try {
             this.sock = new DatagramSocket(puerto);
+            this.puerto=puerto;
         } catch (SocketException ex) {
             Logger.getLogger(SocketUDPSeguro.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public int getPuerto() {
+        return puerto;
     }
     
     public Mensaje recibirPaquete(){
@@ -64,7 +69,7 @@ public class SocketUDPSeguro {
                 X= buf.getDouble();
                 Y= buf.getDouble();
                 m=new Mensaje(messageType, requestID, new String(bytes), puerto, operationID, X, Y);
-                //System.out.println(m.toString());
+                //System.out.println(m.toString()+"+++++++++++++++++++++++++++++++++++++++++");
             
             }while(!this.ValidarYResponder(m));
             
@@ -83,24 +88,30 @@ public class SocketUDPSeguro {
     
     private Boolean ValidarYResponder(Mensaje m){
         int numeroRecibido=m.getMessageType();
-        m.toString();
+        
         if(numeroDeSecuencia==numeroRecibido){
             numeroDeSecuencia++;
             this.Responder(m);
             return true;
         }
         else if(numeroDeSecuencia-1==numeroRecibido){
+            //System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia+" ......");
+             //numeroDeSecuencia=numeroRecibido;
              this.Responder(m);
              return false;
          }
         else{
+             //System.out.println("Recibi "+numeroRecibido+" necesito "+numeroDeSecuencia);
+             m.setMessageType(numeroDeSecuencia);
             this.Responder(m);
+            //System.out.println("mmm");
             return false;
         }
     }
     
     
     private void Responder(Mensaje m){
+        
         ByteBuffer buf = ByteBuffer.allocate(4032);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.putInt(m.getMessageType()); //Mínimo valor entero
@@ -118,11 +129,13 @@ public class SocketUDPSeguro {
         sock.send(dp);
         } catch (UnknownHostException ex) {
             Logger.getLogger(SocketUDPSeguro.class.getName()).log(Level.SEVERE, null, ex);
+          
         } catch (IOException ex) {
             Logger.getLogger(SocketUDPSeguro.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
        
-            
+           
         
     }
 }

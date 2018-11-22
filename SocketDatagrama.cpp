@@ -99,10 +99,12 @@ int SocketDatagrama::recibeTimeout(PaqueteDatagrama &p, time_t segundos, susecon
 	response=recvfrom(s,p.obtieneDatos(), p.obtieneLongitud(),0,(struct sockaddr *)&direccionForanea,&clilen);
 
 	if(response<0){
-		if(errno == EWOULDBLOCK)
-			fprintf(stderr, "Tiempo para la recepcion ha transcurrido\n");
-		else
-			fprintf(stderr, "Error en el recvfrom\n");
+		if(errno == EWOULDBLOCK){
+			//fprintf(stderr, "Tiempo para la recepcion ha transcurrido\n");
+		}
+		else{
+			//fprintf(stderr, "Error en el recvfrom\n");
+		}
 		return 0;
 	}
 	else{
@@ -142,10 +144,12 @@ int SocketDatagrama::enviaTimeout(PaqueteDatagrama &p, time_t segundos, susecond
 	
 
 	if(response<0){
-		if(errno == EWOULDBLOCK)
-			fprintf(stderr, "Tiempo para la recepcion ha transcurrido\n");
-		else
-			fprintf(stderr, "Error en el sendto\n");
+		if(errno == EWOULDBLOCK){
+			//fprintf(stderr, "Tiempo para la recepcion ha transcurrido\n");
+		}
+		else{
+			//fprintf(stderr, "Error en el sendto\n");
+		}
 		return 0;
 	}
 	else{
