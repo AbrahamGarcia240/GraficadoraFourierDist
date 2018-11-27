@@ -34,58 +34,86 @@ public class HIlo extends Thread{
            //m2=s2.recibirPaquete();
            System.out.println(m.toString());
            if(m.operationId==1)
+               try{
                 chart.datasets.add(m.getX(), m.getY());
-                
+               }
+               catch(Exception e){
+                   System.out.println("exx");
+               }
            else if(m.operationId==2){
                try {
                   chart.datasets.remove(m.getX()); 
                    chart.datasets.remove(0);
             
                } catch (Exception e) {
+                   System.out.println("ex");
                }
                
            }
            else if(m.operationId==3)
+               try{
                 chart.datasets2.add(m.getX(), m.getY());
+               }
+               catch( Exception e){
+                   System.out.println(" ex e");
+               }
                 
            else if(m.operationId==4){
                try {
                   chart.datasets2.remove(m.getX()); 
                   chart.datasets2.remove(0);
                } catch (Exception e) {
+                   System.out.println("ex2");
                }
                
            }
-           else if(m.operationId==5)
+           else if(m.operationId==5){
+                try{
                 chart.datasets3.add(m.getX(), m.getY());
-                
+                }catch(Exception e){
+                    System.out.println("exxx2");
+                }
+                }
            else if(m.operationId==6){
                try {
                   chart.datasets3.remove(m.getX()); 
                   chart.datasets3.remove(0);
                } catch (Exception e) {
+                   System.out.println("ex3");
                }
                
            }
-           if(m.operationId==7)
+           if(m.operationId==7){
+               try{
                 chart.datasets4.add(m.getX(), m.getY());
-                
+               }catch(Exception e){
+                   System.out.println("eeeee");
+               }
+               
+           }
            else if(m.operationId==8){
                try {
                   chart.datasets4.remove(m.getX());
                   chart.datasets4.remove(0);
                } catch (Exception e) {
+                   System.out.println("ex4");
                }
                
            }
-           if(m.operationId==9)
-                chart.datasets5.add(m.getX(), m.getY());
+           if(m.operationId==9){
+               try {
+                   chart.datasets5.add(m.getX(), m.getY());
+               } catch (Exception e) {
+                   System.out.println("emin");
+               }
                 
+           }
            else if(m.operationId==10){
                try {
                   chart.datasets5.remove(m.getX()); 
                   chart.datasets5.remove(0);
                } catch (Exception e) {
+                   System.out.println(" ex 5");
                }
                
            }
@@ -93,6 +121,7 @@ public class HIlo extends Thread{
                java.util.concurrent.TimeUnit.MILLISECONDS.sleep(100);
            } catch (InterruptedException ex) {
                Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+               System.out.println("Entre a la excepcion de abajo");
            }
 
         
